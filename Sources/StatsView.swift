@@ -135,7 +135,7 @@ struct StatsView: View {
                     y: .value("支出", item.total),
                     width: .ratio(0.62)
                 )
-                .foregroundStyle(.tint.gradient)
+                .foregroundStyle(Color.accentColor.gradient)
                 .cornerRadius(3)
             }
             .chartXAxis {
