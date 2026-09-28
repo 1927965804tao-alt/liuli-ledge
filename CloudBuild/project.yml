@@ -1,7 +1,3 @@
-# XcodeGen 工程定义
-# 云端 Mac 上用 `xcodegen generate` 一键生成 Xcode 工程文件，
-# 免去手动创建 xcodeproj 的步骤
-
 name: LiuliLedger
 options:
   bundleIdPrefix: com.liuli
@@ -11,7 +7,6 @@ settings:
   base:
     SWIFT_VERSION: "5.9"
     TARGETED_DEVICE_FAMILY: "1,2"
-    INFOPLIST_KEY_UILaunchScreen_Generation: YES
 
 targets:
   LiuliLedger:
@@ -20,6 +15,11 @@ targets:
     deploymentTarget: "26.0"
     sources:
       - path: Sources
+    schemes:
+      LiuliLedger:
+        build:
+          targets:
+            LiuliLedger: all
     info:
       path: Support/Info.plist
       properties:
