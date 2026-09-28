@@ -5,11 +5,19 @@ on:
 
 jobs:
   build:
-    # 需要 Xcode 26（iOS 26 SDK / Liquid Glass API）
     runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check repo structure
+        run: |
+          echo "=== 仓库文件结构 ==="
+          find . -not -path './.git*' | sort
+          echo "====================="
+          test -d Sources || { echo "::error::仓库缺少 Sources 文件夹（应有 7 个 .swift 文件），请先在网页上传"; exit 1; }
+          test -f CloudBuild/project.yml || { echo "::error::仓库缺少 CloudBuild/project.yml，请先在网页创建"; exit 1; }
+          test "$(find Sources -name '*.swift' | wc -l | tr -d ' ')" -ge 7 || { echo "::error::Sources 里不足 7 个 .swift 文件，请补传"; exit 1; }
 
       - name: Confirm Xcode version
         run: xcodebuild -version
