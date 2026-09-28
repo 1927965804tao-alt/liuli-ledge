@@ -1,0 +1,47 @@
+name: Build LiuliLedger
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    # 需要 Xcode 26（iOS 26 SDK / Liquid Glass API）
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Confirm Xcode version
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          cp CloudBuild/project.yml ./project.yml
+          xcodegen generate
+
+      - name: Build (unsigned, device)
+        run: |
+          xcodebuild \
+            -project LiuliLedger.xcodeproj \
+            -scheme LiuliLedger \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p Payload
+          cp -R "build/Build/Products/Release-iphoneos/LiuliLedger.app" Payload/
+          zip -qry LiuliLedger-unsigned.ipa Payload
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LiuliLedger-ipa
+          path: LiuliLedger-unsigned.ipa
