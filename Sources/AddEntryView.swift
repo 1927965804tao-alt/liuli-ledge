@@ -146,7 +146,7 @@ struct AddEntryView: View {
                             .foregroundStyle(.tertiary)
                     }
                 }
-                .foregroundStyle(.tint)
+                .foregroundStyle(Color.accentColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 Text("未识别，选个分类，我会记住你的偏好")
@@ -188,7 +188,7 @@ struct AddEntryView: View {
                                 .padding(.vertical, 9)
                         }
                         .buttonStyle(.plain)
-                        .foregroundStyle(on ? .white : .primary)
+                        .foregroundStyle(on ? AnyShapeStyle(.white) : AnyShapeStyle(.primary))
                         .glassEffect(
                             on ? .regular.tint(c.color).interactive() : .regular,
                             in: .capsule
