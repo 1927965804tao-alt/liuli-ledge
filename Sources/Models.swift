@@ -216,12 +216,12 @@ enum Classifier {
 
         if let m = s.firstMatch(of: /(\d+(?:\.\d{1,2})?)\s*[xX×*]\s*(\d+(?:\.\d{1,2})?)/) {
             let v = ((Double(m.1) ?? 0) * (Double(m.2) ?? 0) * 100).rounded() / 100
-            s = s.replacing(m.0, with: " ")
+            s = s.replacing(String(m.0), with: " ")
             return SmartParse(amount: v > 0 ? v : nil, cleaned: tidy(s))
         }
         if let m = s.firstMatch(of: /(\d+(?:\.\d{1,2})?)/) {
             let v = Double(m.1) ?? 0
-            s = s.replacing(m.0, with: " ")
+            s = s.replacing(String(m.0), with: " ")
             return SmartParse(amount: v > 0 ? v : nil, cleaned: tidy(s))
         }
         return SmartParse(amount: nil, cleaned: tidy(s))
